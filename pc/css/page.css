@@ -7,6 +7,7 @@
 
 .customer_navi{
 	position: relative;
+	min-height: 50px;
 }
 
 .customer_navi_left{

@@ -1,39 +1,21 @@
-﻿<?php get_header();
-
-$term = get_term_by( 'slug', get_query_var( 'term' ), 'seko_cat' );
-if ( is_wp_error( $term ) ) {
-	$h3 = 'キッチン';
-	$term_slug = 'soudan_kitchen';
-} else {
-	$h3 = esc_html( $term->name );
-	$term_slug = $term->slug;
-}
-$args = array(
-	'seko_cat' => $term->slug, 	/* カスタムタクソノミーを指定　*/
-	'paged' => $paged,			/* ページ番号を指定 */
-	'posts_per_page' => 30,		/* 最大表示数 */
-);
-query_posts( $args );
-?>
 <?php
-$term = get_term_by( /* タームごとの表示用　*/
-    'slug',
-    get_query_var('term'),
-    get_query_var('taxonomy')
-);
+get_header();
+$paged = get_query_var('paged') ? get_query_var('paged') : 1;
+$args = array(
+	'post_type' => 'seko', 		/* 投稿タイプを指定 */
+	'paged' => $paged,				/* ページ番号を指定 */
+	'posts_per_page' => 30,			/* 最大表示数 */
+	);
+query_posts( $args );
 ?>
 
 <div id="mainContents" class="container-fluid wrap_inner">
 
 <div class="main_inner row">
-<?php get_sidebar(); ?>
-	<section id="archives_seko" class="contents_area col-sm-9">
-		<ul class="breadcrumb clearfix">
-			<li><a href="<?php bloginfo('url'); ?>">HOME</a></li>
-			<li><a href="<?php bloginfo('url'); ?>/seko">施工事例</a></li>
-			<li><?php single_cat_title();?></li>
-		</ul>
 
+<?php get_sidebar(); ?>
+
+<section id="archives_seko" class="contents_area col-sm-9">
 		<h2 class="contentsTit"> <?php echo esc_html(get_post_type_object(get_post_type())->label ); ?> </h2>
 		<p id="case_text01">弊社のリフォームの施工事例をご紹介します。<br />
 			施工事例を元に、「こんな風にリフォームしたい」という具体的なご要望を持つことが、リフォームを成功させる秘訣です。<br />
@@ -44,7 +26,6 @@ $term = get_term_by( /* タームごとの表示用　*/
 			<li class="col-xs-12 col-sm-6 yane"><a href="<?php bloginfo('url'); ?>/seko_cat/yanetosou">屋根塗装</a></li>
 		</ul>
 </div>
-
 		<?php if (have_posts()) : ?>
 			<!--customer_navi-->
 			<div class="customer_navi clearfix">
@@ -108,11 +89,17 @@ $term = get_term_by( /* タームごとの表示用　*/
 							}}
 							?>
 
-
-
 					</a></p>
 				<div class="data">
-					<p class="icon">
+
+
+
+
+
+
+
+
+<p class="icon">
 
 <?php if ( is_object_in_term($post->ID, 'seko_cat','2') ): ?>
 <span class="gaihekitosou">外壁塗装</span>
@@ -163,6 +150,12 @@ $term = get_term_by( /* タームごとの表示用　*/
 <?php endif; ?>
 
 </p>
+
+
+
+
+
+
 						<p class="name">
 
 							<?php
@@ -197,9 +190,8 @@ $term = get_term_by( /* タームごとの表示用　*/
 		</div>
 		<!--customer_navi-->
 		<?php endif; ?>
-	</section>
 	<?php wp_reset_query(); ?>
-	<!--customer_navi-->
+</section>
 
 </div>
 </div>
